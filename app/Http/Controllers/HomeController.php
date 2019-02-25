@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\PayPalToken;
+use App\Product;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // request will have a code parameter when doing the PayPal connect
+        if(\request('code') !== null) {
+            PayPalToken::genAndStoreTokens(\request('code'));
+            Session::put('status', 'PayPal account connected.');
+            return redirect('home');
+        }
+        return view('home')->with('products', Product::where('user_id', Auth::user()->id)->get());
     }
 }
