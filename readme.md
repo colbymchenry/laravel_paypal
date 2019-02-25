@@ -1,6 +1,11 @@
 **Install via composer**\
+```
 composer require paypal/rest-api-sdk-php:*\
-**Run _php artisan migrate:refresh_**
+```
+**Run**\
+```
+php artisan migrate:refresh
+```
 
 Creating your "Connect with PayPal" button
 -
