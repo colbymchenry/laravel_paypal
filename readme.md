@@ -1,6 +1,6 @@
 **Install via composer**
 ```
-composer require paypal/rest-api-sdk-php:*\
+composer require paypal/rest-api-sdk-php:*
 ```
 **Run**
 ```
