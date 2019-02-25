@@ -19,7 +19,7 @@
                                 </div>
                             @endif
 
-                            <div id="paypal-checkout-button"></div>
+                            <div id="checkout-button"></div>
                             <form action="/paypal/create-agreement/1" method="POST">
                                 @csrf
                                 <button action="submit"class="btn btn-warning">SUBSCRIBE</button>
@@ -39,7 +39,7 @@
         paypal.Button.render({
             env: 'sandbox', // Or 'production
             style: {
-                size: 'large',
+                size: 'small',
                 color: 'gold',
                 shape: 'pill',
                 label: 'checkout',
@@ -74,7 +74,7 @@
                     });
             },
             onError: function (err) {
-                window.location.replace('/home');
+                // window.location.replace('/home');
             }
         }, '#checkout-button');
     </script>
