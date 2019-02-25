@@ -1,8 +1,8 @@
-**Install via composer**\
+**Install via composer**
 ```
 composer require paypal/rest-api-sdk-php:*\
 ```
-**Run**\
+**Run**
 ```
 php artisan migrate:refresh
 ```
