@@ -25,7 +25,7 @@ Route::post('/product/plan/delete/{id}', 'ProductController@deleteBillingAgreeme
 
 // TODO: Get checkout and subscription routes working.
 // checkout routes
-Route::post('/paypal/create-checkout', 'ProductController@createCheckout');
+Route::post('/paypal/create-checkout/{product_id}', 'ProductController@createCheckout');
 Route::post('/paypal/execute-checkout', 'ProductController@executeCheckout')->name('execute-checkout');
 // subscription routes
 Route::post('/paypal/create-agreement/{id}', 'ProductController@createBillingAgreementCheckout');

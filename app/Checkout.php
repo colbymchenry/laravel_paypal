@@ -5,6 +5,7 @@ namespace App;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\InputFields;
@@ -78,21 +79,21 @@ class Checkout {
         $this->payment->create($this->apiContext);
     }
 
-    public static function executeCheckout($request) {
+    public static function executeCheckout(Request $request) {
         $apiContext = PayPalUtil::ApiContext();
-        $paymentId = $request->paymentID;
+        $paymentId = $request->payment_id;
         $payment = Payment::get($paymentId, $apiContext);
 
         $execution = new PaymentExecution();
-        $execution->setPayerId($request->payerID);
+        $execution->setPayerId($request->payer_id);
 
         try {
             $result = $payment->execute($execution, $apiContext);
             $payment = Payment::get($paymentId, $apiContext);
-            $transaction = new Transaction();
+            $transaction = new \App\Transaction();
             $transaction->invoice_id = $result->getTransactions()[0]->invoice_number;
             $transaction->user_id = Auth::user()->id;
-            $transaction->product_id = $request->product_sku;
+            $transaction->product_id = $request->product_id;
             $transaction->save();
         } catch (Exception $ex) {
             Log::error($ex);

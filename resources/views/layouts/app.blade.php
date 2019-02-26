@@ -84,21 +84,21 @@
             @yield('content')
         </main>
     </div>
-</body>
-<script src='https://www.paypalobjects.com/js/external/connect/api.js'></script>
-<script>
-    paypal.use( ['login'], function (login) {
-        login.render ({
-            "appid":"AQm2RTbgardc_osr1S9rydXNwmg7TPcNRbP9s1_jVeS62BVLYFdKNCAu37dbQfG6N17GVA-SWAuhBwg7",
-            "authend":"sandbox",
-            "scopes":"openid email",
-            "containerid":"cwppButton",
-            "locale":"en-us",
-            "buttonType":"CWP",
-            "buttonSize":"lg",
-            "returnurl":"http://localhost:8000/home"
+    <script src='https://www.paypalobjects.com/js/external/connect/api.js'></script>
+    <script>
+        paypal.use( ['login'], function (login) {
+            login.render ({
+                "appid":"AQm2RTbgardc_osr1S9rydXNwmg7TPcNRbP9s1_jVeS62BVLYFdKNCAu37dbQfG6N17GVA-SWAuhBwg7",
+                "authend":"sandbox",
+                "scopes":"openid email",
+                "containerid":"cwppButton",
+                "locale":"en-us",
+                "buttonType":"CWP",
+                "buttonSize":"lg",
+                "returnurl":"http://localhost:8000/home"
+            });
         });
-    });
-</script>
-@yield('js')
+    </script>
+    @yield('js')
+</body>
 </html>

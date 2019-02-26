@@ -51,52 +51,73 @@
 @endsection
 
 @section('js')
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-
     <script>
-        // TODO: Checkout not working...
-        paypal.Button.render({
-            env: 'sandbox', // Or 'production
-            style: {
-                size: 'small',
-                color: 'gold',
-                shape: 'pill',
-                label: 'checkout',
-                tagline: 'true'
-            },
-            // Set up the payment:
-            // 1. Add a payment callback
-            payment: function (data, actions) {
-                // 2. Make a request to your server
-                return actions.request.post('/paypal/create-checkout', {
-                    productSKU: $('meta[name="product_id"]').attr('content'),
-                    _token: token
-                })
-                    .then(function (res) {
-                        // 3. Return res.id from the response
-                        return res.id;
-                    });
-            },
-            // Execute the payment:
-            // 1. Add an onAuthorize callback
-            onAuthorize: function (data, actions) {
-                // 2. Make a request to your server
-                return actions.request.post('/paypal/execute-checkout', {
-                    paymentID: data.paymentID,
-                    payerID: data.payerID,
-                    productSKU: $('meta[name="product_id"]').attr('content'),
-                    _token: token
-                })
-                    .then(function (res) {
-                        // 3. Show the buyer a confirmation message.
-                        console.log('WE MADE IT HERE');
-                    });
-            },
-            onError: function (err) {
-                // window.location.replace('/home');
-                console.log(err);
+        function loadScript( url, callback ) {
+            var script = document.createElement( "script" )
+            script.type = "text/javascript";
+            if(script.readyState) {  // only required for IE <9
+                script.onreadystatechange = function() {
+                    if ( script.readyState === "loaded" || script.readyState === "complete" ) {
+                        script.onreadystatechange = null;
+                        callback();
+                    }
+                };
+            } else {  //Others
+                script.onload = function() {
+                    callback();
+                };
             }
-        }, '#checkout-button');
+
+            script.src = url;
+            document.getElementsByTagName( "head" )[0].appendChild( script );
+        }
+
+
+        // call the function...
+        loadScript('https://www.paypalobjects.com/api/checkout.js', function() {
+            alert('script ready!');
+            paypal.Button.render({
+                env: 'sandbox', // Or 'production
+                style: {
+                    size: 'large',
+                    color: 'gold',
+                    shape: 'pill',
+                    label: 'checkout',
+                    tagline: 'true'
+                },
+                // Set up the payment:
+                // 1. Add a payment callback
+                payment: function (data, actions) {
+                    // 2. Make a request to your server
+                    return actions.request.post('/paypal/create-checkout/' + $('meta[name="product_id"]').attr('content'), {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    })
+                        .then(function (res) {
+                            // 3. Return res.id from the response
+                            return res.id;
+                        });
+                },
+                // Execute the payment:
+                // 1. Add an onAuthorize callback
+                onAuthorize: function (data, actions) {
+                    // 2. Make a request to your server
+                    return actions.request.post('/paypal/execute-checkout', {
+                        payment_id: data.paymentID,
+                        payer_id: data.payerID,
+                        product_id: $('meta[name="product_id"]').attr('content'),
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    })
+                        .then(function (res) {
+                            // 3. Show the buyer a confirmation message.
+                            console.log('WE MADE IT HERE');
+                        });
+                },
+                onError: function (err) {
+                    // window.location.replace('/home');
+                    console.log(err);
+                }
+            }, '#checkout-button');
+        });
     </script>
 
     <script>
