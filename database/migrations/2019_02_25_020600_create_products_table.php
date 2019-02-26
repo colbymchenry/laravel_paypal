@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('user_id');
             $table->string('name');
             $table->double('price');
+            $table->string('billing_agreement_id')->nullable();
             $table->timestamps();
         });
     }

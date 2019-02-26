@@ -15,10 +15,10 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('invoice_id');
+            $table->string('invoice_id')->nullable();
             $table->string('billing_agreement_id')->nullable();
             $table->integer('user_id');
-            $table->integer('product_id')->nullable();
+            $table->integer('product_id');
             $table->timestamps();
         });
     }

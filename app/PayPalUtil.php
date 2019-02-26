@@ -19,4 +19,12 @@ class PayPalUtil {
         return $apiContext;
     }
 
+    public static function BillingAgreementExecuteURL() {
+        return 'execute-agreement';
+    }
+
+    public static function CheckoutExecuteURL() {
+        return 'execute-checkout';
+    }
+
 }

@@ -20,12 +20,14 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/product/create', 'ProductController@createProduct')->name('create_product');
 Route::get('/product/view/{id}', 'ProductController@index')->name('view_product');
+Route::post('/product/plan/create/{id}', 'ProductController@createBillingAgreement')->name('create_billing_agreement');
+Route::post('/product/plan/delete/{id}', 'ProductController@deleteBillingAgreement')->name('delete_billing_agreement');
 
 // TODO: Get checkout and subscription routes working.
 // checkout routes
-Route::post('/paypal/create-checkout', 'PayPalHelper@CreateCheckout');
-Route::post('/paypal/execute-checkout', 'PayPalHelper@ExecuteCheckout')->name('execute-checkout');
+Route::post('/paypal/create-checkout', 'ProductController@createCheckout');
+Route::post('/paypal/execute-checkout', 'ProductController@executeCheckout')->name('execute-checkout');
 // subscription routes
-Route::post('/paypal/create-agreement/{id}', 'PayPalHelper@CreateSubscription');
-Route::get('/paypal/execute-agreement/{success}', 'PayPalHelper@ExecuteSubscription')->name('execute-agreement');
+Route::post('/paypal/create-agreement/{id}', 'ProductController@createBillingAgreementCheckout');
+Route::get('/paypal/execute-agreement/{success}', 'ProductController@executeBillingAgreementCheckout')->name('execute-agreement');
 
